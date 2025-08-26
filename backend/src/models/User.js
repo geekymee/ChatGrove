@@ -25,22 +25,22 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    // nativeLanguage: {
-    //   type: String,
-    //   default: "",
-    // },
-    // learningLanguage: {
-    //   type: String,
-    //   default: "",
-    // },
-    // location: {
-    //   type: String,
-    //   default: "",
-    // },
-    // isOnboarded: {
-    //   type: Boolean,
-    //   default: false,
-    // },
+    nativeLanguage: {
+      type: String,
+      default: "",
+    },
+    learningLanguage: {
+      type: String,
+      default: "",
+    },
+    location: {
+      type: String,
+      default: "",
+    },
+    isProfileComplete: {
+      type: Boolean,
+      default: false,
+    },
     friends: [
       {
         type: mongoose.Schema.Types.ObjectId,

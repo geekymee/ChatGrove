@@ -103,7 +103,7 @@ export const logout = async (req, res) => {
     res.status(200).json({ success: true, message: "Logout successful" });
 }
 
-export async function userDetails(req, res) {
+export async function profileSetup(req, res) {
   try {
     const userId = req.user._id;
 
@@ -126,7 +126,7 @@ export async function userDetails(req, res) {
       userId,
       {
         ...req.body,
-        isOnboarded: true,
+        isProfileComplete: true,
       },
       { new: true }
     );
@@ -139,14 +139,14 @@ export async function userDetails(req, res) {
         name: updatedUser.fullName,
         image: updatedUser.profilePic || "",
       });
-      console.log(`Stream user updated after onboarding for ${updatedUser.fullName}`);
+      console.log(`Stream user updated after profile setup for ${updatedUser.fullName}`);
     } catch (streamError) {
-      console.log("Error updating Stream user during onboarding:", streamError.message);
+      console.log("Error updating Stream user during profile setup:", streamError.message);
     }
 
     res.status(200).json({ success: true, user: updatedUser });
   } catch (error) {
-    console.error("Onboarding error:", error);
+    console.error("profile setup error:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 }

@@ -9,7 +9,7 @@ export async function getRecommendedUsers(req, res) {
       $and: [
         { _id: { $ne: currentUserId } }, //do not include me
         { _id: { $nin: currentUser.friends } }, // not already friends
-        { isOnboarded: true },
+        { isProfileComplete: true },
       ],
     });
     res.status(200).json(recommendedUsers);
