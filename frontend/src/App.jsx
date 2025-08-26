@@ -10,19 +10,24 @@ import ProfileSetupPage from "./pages/Bio.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.jsx";
-
+import Layout from "./components/Layout.jsx";
+import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
   
   const{isLoading , authUser} = useAuthUser();
-
+  const {theme} = useThemeStore();
   if(isLoading) return <PageLoader/>;
   const isAuthenticated = Boolean(authUser);
   const isProfileComplete = authUser?.isProfileComplete;
   return (
-    <div className="h-screen" data-theme="night">
+    <div className="h-screen" data-theme={theme}>
       <Routes>
-        <Route path = "/" element = {isAuthenticated && isProfileComplete? <HomePage/> : <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"} />}/>
+        <Route path = "/" element = {isAuthenticated && isProfileComplete? 
+        <Layout showSidebar = {true}>
+          <HomePage/> 
+        </Layout>
+        : <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"} />}/>
         <Route path = "/signup" element = {isAuthenticated? <Navigate to = "/" /> : <SignUpPage/>}/>
         <Route path = "/login" element = {isAuthenticated? <Navigate to = "/" /> : <LoginPage/>}/>
         <Route path = "/notifications" element = {isAuthenticated? <NotificationsPage/> : <Navigate to = "/login" />}/>
