@@ -21,7 +21,7 @@ const App = () => {
   const isAuthenticated = Boolean(authUser);
   const isProfileComplete = authUser?.isProfileComplete;
   return (
-    <div className="h-screen" data-theme={theme}>
+    <div className="min-h-screen " data-theme={theme} >
       <Routes>
         <Route path = "/" element = {isAuthenticated && isProfileComplete? 
         <Layout showSidebar = {true}>
