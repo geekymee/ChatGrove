@@ -64,6 +64,7 @@ export async function sendFriendRequest(req, res) {
       return res
         .status(400)
         .json({ message: "friend request already exists " });
+        
     }
 
     const friendRequest = await FriendRequest.create({

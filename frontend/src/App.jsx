@@ -30,7 +30,7 @@ const App = () => {
         : <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"} />}/>
         <Route path = "/signup" element = {isAuthenticated? <Navigate to = "/" /> : <SignUpPage/>}/>
         <Route path = "/login" element = {isAuthenticated? <Navigate to = "/" /> : <LoginPage/>}/>
-        <Route path = "/notifications" element = {isAuthenticated? <NotificationsPage/> : <Navigate to = "/login" />}/>
+        <Route path = "/notifications" element = {isAuthenticated && isProfileComplete ? <Layout showSidebar = {true}><NotificationsPage/></Layout> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/>
         <Route path = "/call" element = {isAuthenticated? <CallPage/> : <Navigate to = "/login " />}/>
         <Route path = "/chat/:chatId" element = {isAuthenticated? <ChatPage/> : <Navigate to = "/login " />}/>
         <Route path = "/profilesetup" element={ isAuthenticated ? (!isProfileComplete ? (<ProfileSetupPage />) : (  <Navigate to="/" />  )) : (  <Navigate to="/login" /> )}/>
