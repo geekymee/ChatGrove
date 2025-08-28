@@ -62,13 +62,7 @@ const ProfileSetupPage = () => {
     },
   });
 
-  // const handleRandomAvatar = () => {
-  //   const idx = Math.floor(Math.random() * 100) + 1; // 1-100 included
-  //   const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
-
-  //   setFormState({ ...formState, profilePic: randomAvatar });
-  //   toast.success("Profile picture changed!");
-  // };
+  
 
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center p-4">

@@ -14,12 +14,12 @@ import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
-  
   const{isLoading , authUser} = useAuthUser();
   const {theme} = useThemeStore();
   if(isLoading) return <PageLoader/>;
   const isAuthenticated = Boolean(authUser);
   const isProfileComplete = authUser?.isProfileComplete;
+  
   return (
     <div className="min-h-screen " data-theme={theme} >
       <Routes>
@@ -32,7 +32,8 @@ const App = () => {
         <Route path = "/login" element = {isAuthenticated? <Navigate to = "/" /> : <LoginPage/>}/>
         <Route path = "/notifications" element = {isAuthenticated && isProfileComplete ? <Layout showSidebar = {true}><NotificationsPage/></Layout> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/>
         <Route path = "/call" element = {isAuthenticated? <CallPage/> : <Navigate to = "/login " />}/>
-        <Route path = "/chat/:chatId" element = {isAuthenticated? <ChatPage/> : <Navigate to = "/login " />}/>
+        <Route path = "/chats" element = {isAuthenticated && isProfileComplete ? <Layout showSidebar = {false} ><ChatPage/></Layout> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/>
+        <Route path = "/chats/:id" element = {isAuthenticated && isProfileComplete ? <Layout showSidebar = {false} ><ChatPage/></Layout> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/>
         <Route path = "/profilesetup" element={ isAuthenticated ? (!isProfileComplete ? (<ProfileSetupPage />) : (  <Navigate to="/" />  )) : (  <Navigate to="/login" /> )}/>
       </Routes>
 
