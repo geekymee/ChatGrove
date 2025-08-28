@@ -1,14 +1,12 @@
-import { useState } from "react";
-import useAuthUser from "../hooks/useAuthUser";
+import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { ProfileSetup } from "../lib/api";
-import { LoaderIcon, MapPinIcon, Shrub, ShuffleIcon } from "lucide-react";
+import { LoaderIcon, MapPinIcon, Shrub, ShuffleIcon , CameraIcon} from "lucide-react";
 import { LANGUAGES } from "../constants";
+import { useAuthStore } from "../store/useAuthStore";
 
 const ProfileSetupPage = () => {
-  const { authUser } = useAuthUser();
-  const queryClient = useQueryClient();
+  const { authUser , updateProfile, isUpdatingProfile } = useAuthStore();
 
   const [formState, setFormState] = useState({
     fullName: authUser?.fullName || "",
@@ -19,21 +17,22 @@ const ProfileSetupPage = () => {
     profilePic: authUser?.profilePic || "",
   });
 
-  const { mutate: ProfileSetupMutation, isPending } = useMutation({
-    mutationFn: ProfileSetup,
-    onSuccess: () => {
-      toast.success("Profile setup successfull");
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    },
-
-    onError: (error) => {
-      toast.error(error.response.data.message);
-    },
-  });
+  useEffect(() => {
+    if (authUser) {
+      setFormState({
+        fullName: authUser.fullName || "",
+        bio: authUser.bio || "",
+        nativeLanguage: authUser.nativeLanguage || "",
+        learningLanguage: authUser.learningLanguage || "",
+        location: authUser.location || "",
+        profilePic: authUser.profilePic || "",
+      });
+    }
+  }, [authUser]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    ProfileSetupMutation(formState);
+    updateProfile(formState);
   };
 
   const preloadImage = (url) =>
@@ -201,8 +200,8 @@ const ProfileSetupPage = () => {
 
             {/* SUBMIT BUTTON */}
 
-            <button className="btn btn-primary w-full" disabled={isPending} type="submit">
-              {!isPending ? (
+            <button className="btn btn-primary w-full" disabled={isUpdatingProfile} type="submit">
+              {!isUpdatingProfile ? (
                 <>
                   <Shrub className="size-5 mr-2" />
                   Let's Start the Journey

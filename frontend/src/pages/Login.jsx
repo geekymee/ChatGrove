@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { Shrub } from "lucide-react";
 import { Link } from "react-router";
-import useLogin from "../hooks/useLogin";
+import { useAuthStore } from "../store/useAuthStore";
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
 
-  const { isPending, error, loginMutation } = useLogin();
+  const {login , isLoggingIn} = useAuthStore();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    loginMutation(loginData);
+    login(loginData);
   };
   
   return (
@@ -30,13 +30,6 @@ const LoginPage = () => {
               ChatGrove
             </span>
           </div>
-
-         
-          {error && (
-            <div className="alert alert-error mb-4">
-              <span>{error.response.data.message}</span>
-            </div>
-          )}
 
           <div className="w-full">
             <form onSubmit={handleLogin}>
@@ -77,8 +70,8 @@ const LoginPage = () => {
                     />
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-full" disabled={isPending}>
-                    {isPending ? (
+                  <button type="submit" className="btn btn-primary w-full" disabled={isLoggingIn}>
+                    {isLoggingIn ? (
                       <>
                         <span className="loading loading-spinner loading-xs"></span>
                         Signing in...

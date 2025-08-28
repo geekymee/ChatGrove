@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import FriendListSkeleton from "./skeletons/FriendListSkeleton";
-import useAuthUser from "../hooks/useAuthUser";
-import { Users , Shrub} from "lucide-react";
+import { Users } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
 const FriendList = () => {
-  const { authUser } = useAuthUser();
- 
+  const {onlineUsers} = useAuthStore();
   const {getUsers , users , selectedUser , setSelectedUser, isUsersLoading} = useChatStore();
-  const onlineUsers = [];
   useEffect(() => {
     getUsers();},
   [getUsers]);

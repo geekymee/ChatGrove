@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Shrub } from "lucide-react";
 import { Link } from "react-router";
-import { signup } from "../lib/api";
-import useSignUp from "../hooks/useSignUp";
+import { useAuthStore } from "../store/useAuthStore";
+
 
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
@@ -11,11 +11,22 @@ const SignUpPage = () => {
     password: "",
   });
   
-  const { isPending, error, signupMutation } = useSignUp();
+  const {signup , isSigningUp} = useAuthStore();
+
+  const validateForm = () => {
+    if (!signupData.fullName.trim()) return toast.error("Full name is required");
+    if (!signupData.email.trim()) return toast.error("Email is required");
+    if (!/\S+@\S+\.\S+/.test(signupData.email)) return toast.error("Invalid email format");
+    if (!signupData.password) return toast.error("Password is required");
+    if (signupData.password.length < 6) return toast.error("Password must be at least 6 characters");
+
+    return true;
+  };
+
 
   const handleSignup = (e) => {
     e.preventDefault();
-    signupMutation(signupData);
+    if(validateForm()===true) signup(signupData);
   };
 
   return (
@@ -33,13 +44,6 @@ const SignUpPage = () => {
               ChatGrove
             </span>
           </div>
-
-            
-          {error && (
-            <div className="alert alert-error mb-4">
-              <span>{error.response.data.message}</span>
-            </div>
-          )}
 
           <div className="w-full">
             <form onSubmit={handleSignup}>
@@ -100,7 +104,7 @@ const SignUpPage = () => {
                 </div>
 
                 <button className="btn btn-primary w-full" type="submit">
-                  {isPending ? (
+                  {isSigningUp ? (
                     <>
                       <span className="loading loading-spinner loading-xs"></span>
                       Loading...

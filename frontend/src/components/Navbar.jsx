@@ -1,15 +1,12 @@
 import { Link, useLocation } from "react-router";
-import useAuthUser from "../hooks/useAuthUser";
 import { BellIcon, LogOutIcon, Shrub } from "lucide-react";
 import ThemeSelector from "./ThemeSelecter";
-import useLogout from "../hooks/useLogout";
-
+import { useAuthStore } from "../store/useAuthStore.js";
 const Navbar = () => {
-  const { authUser } = useAuthUser();
+  const { logout , authUser } = useAuthStore();
   const location = useLocation();
   const isChatPage = location.pathname?.startsWith("/chat");
 
-  const { logoutMutation } = useLogout();
 
   return (
     <nav className= {`bg-base-200 border-b border-base-300 h-16 flex items-center z-30 ${isChatPage ? "fixed inset-0" : ""}`}>
@@ -43,7 +40,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          <button className="btn btn-ghost btn-circle" onClick={logoutMutation}>
+          <button className="btn btn-ghost btn-circle" onClick={logout}>
             <LogOutIcon className="h-6 w-6 text-base-content opacity-70" />
           </button>
         </div>

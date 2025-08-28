@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import Chat from "../models/chat.js";
 
 import cloudinary from "../lib/cloudinary.js";
-// import { getReceiverSocketId, io } from "../lib/socket.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 
 export const getFriendList = async (req, res) => {
   try {
@@ -60,10 +60,10 @@ export const sendChatMessage = async (req, res) => {
 
     await newChat.save();
 
-    // const receiverSocketId = getReceiverSocketId(receiverId);
-    // if (receiverSocketId) {
-    //   io.to(receiverSocketId).emit("newMessage", newMessage);
-    // }
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newChat", newChat);
+    }
 
     res.status(201).json(newChat);
   } catch (error) {

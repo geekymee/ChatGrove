@@ -24,7 +24,8 @@ const FriendCard = ({ friend }) => {
           </span>
         </div>
 
-        <Link to={`/chats/${friend._id}`} className="btn btn-outline w-full">
+        {/* <Link to={`/chats/${friend._id}`} className="btn btn-outline w-full"> */}
+        <Link to={`/chats`} className="btn btn-outline w-full">
           Message
         </Link>
       </div>
