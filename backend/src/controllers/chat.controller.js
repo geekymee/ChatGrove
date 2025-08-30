@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import Chat from "../models/chat.js";
+import Chat from "../models/Chat.js";
 import { generateStreamToken } from "../lib/stream.js";
 
 import cloudinary from "../lib/cloudinary.js";
