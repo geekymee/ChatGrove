@@ -1,0 +1,22 @@
+{
+  "name": "chatgrove",
+  "version": "1.0.0",
+  "description": "A feature-rich, chat platform offering real-time messaging, video calls, reactions, and more—built with a modern tech stack and multiple themes.",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geekymee/ChatGrove.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/geekymee/ChatGrove/issues"
+  },
+  "homepage": "https://github.com/geekymee/ChatGrove#readme"
+}
