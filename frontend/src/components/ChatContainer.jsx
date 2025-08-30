@@ -17,6 +17,9 @@ const ChatContainer = () => {
   } = useChatStore();
   const { isCheckingAuth , authUser } = useAuthStore(); 
   const messageEndRef = useRef(null);
+  
+
+  
   useEffect(() => {
     getMessages(selectedUser._id);
 
@@ -81,7 +84,26 @@ const ChatContainer = () => {
                     className="sm:max-w-[200px] rounded-md mb-2"
                   />
                 )}
-                {message.text && <p>{message.text}</p>}
+                {message.text && 
+                <p>
+                  {message.text.split(" ").map((word, idx) => {
+                    if (word.startsWith("http://") || word.startsWith("https://")) {
+                      return (
+                        <a
+                          key={idx}
+                          href={word}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          {word}{" "}
+                        </a>
+                      );
+                    }
+                    return word + " ";
+                  })}
+                </p>
+                }
               </div>
             </div>
           ))}

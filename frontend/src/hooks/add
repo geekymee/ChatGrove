@@ -1,0 +1,37 @@
+// Listen for "callRejected" event, which is triggered when the other user declines the call.
+        // socket.on("callRejected", (data) => {
+        //   setCallRejectedPopUp(true);
+        //   setCallrejectorData(data);
+        //   // Stop ringtone in case call is ended before acceptance
+        //   // Stop ringtone when call is accepted
+        //   ringtone.stop();
+        // });
+        // Listen for "callEnded" event, which is triggered when the other user ends the call.
+        // socket.on("callEnded", (data) => {
+        //   console.log("Call ended by", data.name); // Log the event in the console.
+        //   // Stop ringtone in case call is ended before acceptance
+        //   ringtone.stop();
+        //   endCallCleanup();  // Call a function to clean up the call state.
+        // });
+        // Listen for "userUnavailable" event, meaning the user being called is not online.
+        // socket.on("userUnavailable", (data) => {
+        //   alert(data.message || "User is not available."); // Show an alert.
+        // });
+        // Listen for "userBusy" event, meaning the user is already on another call.
+        // socket.on("userBusy", (data) => {
+        //   alert(data.message || "User is currently in another call."); // Show an alert.
+        // });
+        // Listen for "online-users" event, which provides the list of currently online users.
+        // socket.on("online-users", (onlineUsers) => {
+        //   setUserOnline(onlineUsers); // Update state with the list of online users.
+        // });
+        // Cleanup function: Runs when the component unmounts or dependencies change.
+
+
+        //   socket.off("me");  // Remove listener for "me" event.
+          socket.off("callToUser");  // Remove listener for incoming calls.
+        //   socket.off("callRejected");  // Remove listener for call rejection.
+        //   socket.off("callEnded");  // Remove listener for call ending.
+        //   socket.off("userUnavailable");  // Remove listener for unavailable user.
+        //   socket.off("userBusy");  // Remove listener for busy user.
+        //   socket.off("online-users");  // Remove listener for online users list.

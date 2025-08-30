@@ -25,12 +25,32 @@ io.on("connection", (socket) => {
   if (userId) userSocketMap[userId] = socket.id;
 
   // io.emit() is used to send events to all the connected clients
-  io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  const onlineUsers = Object.keys(userSocketMap);
+  io.emit("getOnlineUsers", onlineUsers);
 
+    
+
+  socket.on("callToUser", (data) => {
+    const callReceiverSocketId = getReceiverSocketId(data.callToUserId);
+    console.log("callReceiverSocketId" , callReceiverSocketId);
+    if (!callReceiverSocketId) {
+      socket.emit("userUnavailable", { message: "User is offline." });
+      return;
+    }
+    
+    io.to(callReceiverSocketId).emit("callToUser",{
+      signal: data.signalData, // WebRTC signal data
+      from: data.from, // Caller ID
+      name: data.name, // Caller name
+      email: data.email, // Caller email
+      profilepic: data.profilepic, // Caller profile picture
+    })
+  });
   socket.on("disconnect", () => {
     console.log("A user disconnected", socket.id);
     delete userSocketMap[userId];
-    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    const onlineUsers = Object.keys(userSocketMap);
+    io.emit("getOnlineUsers", onlineUsers);
   });
 });
 

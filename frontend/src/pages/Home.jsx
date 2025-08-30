@@ -17,7 +17,6 @@ import NoFriendsFound from "../components/NoFriendsFound";
 const HomePage = () => {
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
-// set() to include only unique values
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
     queryFn: getUserFriends,
@@ -77,9 +76,9 @@ const HomePage = () => {
           <div className="mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Meet New Learners</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Discover Friends, Learn Together</h2>
                 <p className="opacity-70">
-                  Discover perfect language exchange partners based on your profile
+                  Find ideal learning partners and friends through detailed profiles.
                 </p>
               </div>
             </div>

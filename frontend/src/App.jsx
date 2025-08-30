@@ -20,8 +20,7 @@ const App = () => {
     checkAuth();
   }, [checkAuth]);
   if (isCheckingAuth && !authUser) return <PageLoader/>;
-  console.log("authUser" , authUser);
-  console.log("user" , authUser?.isProfileComplete);
+  
   const isAuthenticated = Boolean(authUser);
   const isProfileComplete = authUser?.isProfileComplete;
   
@@ -36,9 +35,10 @@ const App = () => {
         <Route path = "/signup" element = {isAuthenticated? <Navigate to = "/" /> : <SignUpPage/>}/>
         <Route path = "/login" element = {isAuthenticated? <Navigate to = "/" /> : <LoginPage/>}/>
         <Route path = "/notifications" element = {isAuthenticated && isProfileComplete ? <Layout showSidebar = {true}><NotificationsPage/></Layout> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/>
-        <Route path = "/call" element = {isAuthenticated? <CallPage/> : <Navigate to = "/login" />}/>
+        <Route path="/call/:id" element={<CallPage />} />
+        <Route path = "/call/:id" element = {isAuthenticated && isProfileComplete ?<CallPage /> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/>
+        <Route path = "/chats/:id" element = {isAuthenticated && isProfileComplete ? <Layout showSidebar = {false} ><ChatPage/></Layout> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/>
         <Route path = "/chats" element = {isAuthenticated && isProfileComplete ? <Layout showSidebar = {false} ><ChatPage/></Layout> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/>
-        {/* <Route path = "/chats/:id" element = {isAuthenticated && isProfileComplete ? <Layout showSidebar = {false} ><ChatPage/></Layout> : ( <Navigate to = {!isAuthenticated? "/login" : "/profilesetup"}/>)}/> */}
         <Route path = "/profilesetup" element={ isAuthenticated ? (!isProfileComplete ? (<ProfileSetupPage />) : (  <Navigate to="/" />  )) : (  <Navigate to="/login" /> )}/>
       </Routes>
       <Toaster />

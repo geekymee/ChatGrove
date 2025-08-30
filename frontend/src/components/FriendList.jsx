@@ -13,7 +13,7 @@ const FriendList = () => {
   if (isUsersLoading) {
     return <FriendListSkeleton />;
   }
-
+  
   return (
     <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
         <div className="border-b border-base-300 w-full p-5">
@@ -33,7 +33,9 @@ const FriendList = () => {
 
               <button
                 key={user._id}
-                onClick={() => setSelectedUser(user)}
+                onClick={() => {setSelectedUser(user); 
+                  
+                }}
                 className={`
                   w-full p-3 flex items-center gap-3
                   hover:bg-base-300 transition-colors

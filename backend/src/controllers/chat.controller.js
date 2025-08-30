@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Chat from "../models/chat.js";
+import { generateStreamToken } from "../lib/stream.js";
 
 import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
@@ -37,6 +38,17 @@ export const getChats = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export async function getStreamToken(req, res) {
+  try {
+    const token = generateStreamToken(req.user.id);
+
+    res.status(200).json({ token });
+  } catch (error) {
+    console.log("Error in getStreamToken controller:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
 
 export const sendChatMessage = async (req, res) => {
   try {

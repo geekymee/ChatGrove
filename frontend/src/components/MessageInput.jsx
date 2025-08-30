@@ -1,13 +1,14 @@
 import { useRef, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
-import { Image, Send, X } from "lucide-react";
+import { Image, Send, X , LoaderCircle} from "lucide-react";
 import toast from "react-hot-toast";
-
 const MessageInput = () => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
+  const [isSending, setIsSending] = useState(false);
   const fileInputRef = useRef(null);
   const { sendMessage } = useChatStore();
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -15,13 +16,20 @@ const MessageInput = () => {
       toast.error("Please select an image file");
       return;
     }
+    const MAX_SIZE = 2 * 1024 * 1024; // 2 MB
 
+    if (file.size > MAX_SIZE) {
+      toast.error("Image is too large. Max size is 2 MB.");
+      return;
+    }
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result);
     };
     reader.readAsDataURL(file);
   };
+
+  
 
   const removeImage = () => {
     setImagePreview(null);
@@ -31,6 +39,7 @@ const MessageInput = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
+    setIsSending(true); 
 
     try {
       await sendMessage({
@@ -39,13 +48,16 @@ const MessageInput = () => {
       });
 
       // Clear form
+      setIsSending(false);
       setText("");
       setImagePreview(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
       console.error("Failed to send message:", error);
+      setIsSending(false);
     }
   };
+
 
   return (
     <div className="p-4 w-full">
@@ -78,6 +90,8 @@ const MessageInput = () => {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
+        
+
           <input
             type="file"
             accept="image/*"
@@ -99,8 +113,8 @@ const MessageInput = () => {
           type="submit"
           className="sm:flex btn btn-circle"
           disabled={!text.trim() && !imagePreview}
-        >
-          <Send size={22} />
+        > 
+        {isSending ? <LoaderCircle size={22} className="animate-spin text-primary" /> : <Send size={22} />}
         </button>
       </form>
     </div>

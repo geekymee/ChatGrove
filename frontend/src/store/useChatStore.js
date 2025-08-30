@@ -8,6 +8,9 @@ export const useChatStore = create((set , get) => ({
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
+  showReceiverPopUp: false,
+  clipboardLocked: false,
+  ReceiverDetails : null,
 
   getUsers: async () => {
     set({ isUsersLoading: true });
@@ -42,6 +45,9 @@ export const useChatStore = create((set , get) => ({
       toast.error(error.response.data.message);
     }
   },
+  
+
+
 
   subscribeToMessages: () => {
     const { selectedUser } = get();
@@ -58,11 +64,23 @@ export const useChatStore = create((set , get) => ({
       });
     });
   },
+   
+  showVideoCallPopup: (receiver)=>{
+    set({
+      showReceiverPopUp: true,
+      ReceiverDetails: receiver,
+    });
+  },
+  closeVideoCallPopup: () =>
+  set({
+    showReceiverPopUp: false,
+    ReceiverDetails: null,
+  }),
 
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
     socket.off("newChat");
   },
-
   setSelectedUser: (selectedUser) => set({ selectedUser }),
+  clearSelectedUser: () => set({ selectedUser: null }),
 }));
